@@ -49,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  // String型の変数_typeを用意
   String _type = "偶数";
 
   void _incrementCounter() {
@@ -70,38 +71,30 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text('$_type', style: TextStyle(fontSize: 20, color: Colors.red))
+          ],
         ),
-        drawer: Drawer(child: Center(child: Text("Drawer"))),// drawer
-        body: Column(children: [
-          Text("初めてのテキスト"),
-          Text("2番目のテキスト"),
-          TextButton(
-            onPressed: () => {print("ボタンがおされたよ")},
-            child: Text("更新"),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: 24.0,
-              ),
-              Icon(
-                Icons.audiotrack,
-                color: Colors.green,
-                size: 30.0,
-              ),
-              Icon(
-                Icons.beach_access,
-                color: Colors.blue,
-                size: 36.0,
-              ),
-            ],
-          )
-        ]));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
 
