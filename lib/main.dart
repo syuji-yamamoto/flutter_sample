@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,66 +49,88 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  // String型の変数_typeを用意
-  String _type = "偶数";
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-      if (_counter % 2 == 0) {
-        _type = "偶数";
-      } else {
-        _type = "奇数";
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: NextPage1());
   }
+}
 
+/// NextPage1 クラス
+class NextPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Next Page1'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text('$_type', style: TextStyle(fontSize: 20, color: Colors.red))
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        body: Center(
+            child: TextButton(
+                onPressed: () => {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return NextPage2();
+                  }))
+                },
+                child: Text("進む", style: TextStyle(fontSize: 80)
+                )
+            )
+        )
     );
   }
 }
 
-class NextPage extends StatelessWidget {
+/// NextPage2 クラス
+class NextPage2 extends StatelessWidget {
+  @override
+  // 利用例
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Next Page2'),
+        ),
+        body: Center(
+            child:
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextButton(
+                  onPressed: () =>
+                  {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return NextPage3();
+                    }))
+                  },
+                  child: Text("進む", style: TextStyle(fontSize: 80)
+                  )
+              ),
+              TextButton(
+                  onPressed: () => {Navigator.of(context).pop()},
+                  child: Text("戻る", style: TextStyle(fontSize: 80)
+                  )
+              ),
+            ])
+        )
+    );
+  }
+}
+
+/// NextPage3 クラス
+class NextPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Next Page'),
-      ),
-      body: Container(
-        color: Colors.red,
-      ),
+        appBar: AppBar(
+          title: Text("NextPage3"),
+        ),
+        body: Center(
+          child: IconButton(
+              icon: Icon(Icons.open_in_browser),
+              onPressed: () async {
+                const url = "https://www.google.co.jp";
+                if (await canLaunch(url)) {
+                  await launch(url);
+                }
+              }),
+        ),
     );
   }
 }
