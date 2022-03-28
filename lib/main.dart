@@ -49,88 +49,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: NextPage1());
+  bool flag = false;
+  _click() async {
+    setState(() {
+      flag = !flag;
+    });
   }
-}
 
-/// NextPage1 クラス
-class NextPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Next Page1'),
+        title: Text(widget.title),
       ),
-        body: Center(
-            child: TextButton(
-                onPressed: () => {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return NextPage2();
-                  }))
-                },
-                child: Text("進む", style: TextStyle(fontSize: 80)
-                )
-            )
-        )
-    );
-  }
-}
-
-/// NextPage2 クラス
-class NextPage2 extends StatelessWidget {
-  @override
-  // 利用例
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Next Page2'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AnimatedContainer(
+                duration: Duration(seconds: 3),
+                width: flag ? 100 : 30,
+                height: flag ? 50 : 100,
+                padding: flag ? EdgeInsets.all(0) : EdgeInsets.all(30),
+                margin: flag ? EdgeInsets.all(0) : EdgeInsets.all(30),
+                transform: flag ? Matrix4.skewX(0.0) : Matrix4.skewX(0.3),
+                color: flag ? Colors.blue : Colors.grey),
+            AnimatedSwitcher(
+                duration: Duration(seconds: 3),
+                child: flag
+                    ? Text("なにもない")
+                    : Icon(Icons.favorite, color: Colors.pink))
+          ],
         ),
-        body: Center(
-            child:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () =>
-                  {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return NextPage3();
-                    }))
-                  },
-                  child: Text("進む", style: TextStyle(fontSize: 80)
-                  )
-              ),
-              TextButton(
-                  onPressed: () => {Navigator.of(context).pop()},
-                  child: Text("戻る", style: TextStyle(fontSize: 80)
-                  )
-              ),
-            ])
-        )
-    );
-  }
-}
-
-/// NextPage3 クラス
-class NextPage3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("NextPage3"),
-        ),
-        body: Center(
-          child: IconButton(
-              icon: Icon(Icons.open_in_browser),
-              onPressed: () async {
-                const url = "https://www.google.co.jp";
-                if (await canLaunch(url)) {
-                  await launch(url);
-                }
-              }),
-        ),
+      ),
+      floatingActionButton:
+      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(onPressed: _click, child: Icon(Icons.add)),
+      ]),
     );
   }
 }
