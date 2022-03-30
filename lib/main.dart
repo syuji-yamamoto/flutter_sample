@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// StatefulWidgetクラスを継承したRandomWordsクラスを生成
 class RandomWords extends StatefulWidget {
   const RandomWords({ Key? key }) : super(key: key);
 
@@ -27,6 +28,8 @@ class RandomWords extends StatefulWidget {
   _RandomWordsState createState() => _RandomWordsState();
 }
 
+/// アプリのロジックをここに記入する。
+/// RandomWordsウィジェットの状態を維持する。
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
